@@ -1,0 +1,23 @@
+[
+    {
+        "codigo": "001",
+        "nombre": "Arroz con pollo",
+        "categoria": "Plato principal",
+        "precio": 5.5,
+        "stock": 10
+    },
+    {
+        "codigo": "002",
+        "nombre": "Hamburguesa",
+        "categoria": "Plato principal",
+        "precio": 4.5,
+        "stock": 8
+    },
+    {
+        "codigo": "003",
+        "nombre": "Jugo natural",
+        "categoria": "Bebida",
+        "precio": 2.0,
+        "stock": 15
+    }
+]
