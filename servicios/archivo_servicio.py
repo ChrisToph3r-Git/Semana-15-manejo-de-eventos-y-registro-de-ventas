@@ -23,6 +23,9 @@ class ArchivoServicio:
     def guardar_productos(self, productos):
         self._guardar_json(self.ruta_productos, productos)
 
+    def guardar_usuarios(self, usuarios):
+        self._guardar_json(self.ruta_usuarios, usuarios)
+
     def guardar_ventas(self, ventas):
         self._guardar_json(self.ruta_ventas, ventas)
 

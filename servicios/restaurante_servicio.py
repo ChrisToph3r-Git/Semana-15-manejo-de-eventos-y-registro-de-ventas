@@ -13,6 +13,7 @@ class RestauranteServicio:
         self.usuarios = []
         self.productos = []
         self.ventas = []
+        self.usuario_actual = None
         self.cargar_datos()
 
     def cargar_datos(self):
@@ -35,7 +36,9 @@ class RestauranteServicio:
                 usuario_registrado.usuario == usuario
                 and usuario_registrado.contrasena == contrasena
             ):
+                self.usuario_actual = usuario_registrado
                 return usuario_registrado
+        self.usuario_actual = None
         return None
 
     def listar_usuarios(self):
@@ -53,6 +56,50 @@ class RestauranteServicio:
             if usuario.usuario == nombre_usuario:
                 return usuario
         return None
+
+    def registrar_usuario(self, usuario, contrasena, nombre, rol, identificacion=None):
+        if self.obtener_usuario(usuario) is not None:
+            raise ValueError("El nombre de usuario ya existe.")
+        identificacion = identificacion if identificacion is not None else usuario
+        if any(registrado.identificacion == str(identificacion).strip() for registrado in self.usuarios):
+            raise ValueError("El ID / Identificación ya existe.")
+        if rol == "Administrador":
+            raise ValueError("La gestión administrativa permite registrar Empleados o Clientes.")
+        nuevo_usuario = Usuario(usuario, contrasena, nombre, rol, identificacion)
+        self.usuarios.append(nuevo_usuario)
+        self._guardar_usuarios()
+        return nuevo_usuario
+
+    def actualizar_usuario(self, identificador, contrasena, nombre, rol, identificacion=None):
+        usuario = self.obtener_usuario(identificador)
+        if usuario is None:
+            raise ValueError("No se encontró el usuario seleccionado.")
+        if usuario.rol == "Administrador" or rol == "Administrador":
+            raise ValueError("Solo se pueden actualizar usuarios Empleado o Cliente.")
+        if identificacion is not None and any(
+            registrado is not usuario
+            and registrado.identificacion == str(identificacion).strip()
+            for registrado in self.usuarios
+        ):
+            raise ValueError("El ID / Identificación ya existe.")
+        usuario.contrasena = contrasena
+        usuario.nombre = nombre
+        usuario.rol = rol
+        if identificacion is not None:
+            usuario.identificacion = identificacion
+        self._guardar_usuarios()
+        return usuario
+
+    def eliminar_usuario(self, identificador):
+        usuario = self.obtener_usuario(identificador)
+        if usuario is None:
+            raise ValueError("No se encontró el usuario seleccionado.")
+        if usuario.rol == "Administrador":
+            raise ValueError("No se puede eliminar un usuario Administrador.")
+        if self.usuario_actual is usuario:
+            raise ValueError("No puede eliminar la cuenta que está utilizando.")
+        self.usuarios.remove(usuario)
+        self._guardar_usuarios()
 
     def registrar_producto(self, codigo, nombre, categoria, precio, stock):
         if any(producto.codigo == str(codigo).strip() for producto in self.productos):
@@ -111,6 +158,11 @@ class RestauranteServicio:
     def _guardar_productos(self):
         self.archivo_servicio.guardar_productos(
             [producto.a_diccionario() for producto in self.productos]
+        )
+
+    def _guardar_usuarios(self):
+        self.archivo_servicio.guardar_usuarios(
+            [usuario.a_diccionario() for usuario in self.usuarios]
         )
 
     def _guardar_ventas(self):

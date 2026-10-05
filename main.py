@@ -12,7 +12,7 @@ class AplicacionRestaurante:
 
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Restaurante App - Semana 15")
+        self.root.title("Restaurante App - Semana 16")
         self.root.geometry("980x700")
         self.root.minsize(820, 620)
 

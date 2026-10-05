@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "usuario": "cliente",
+        "producto": "002",
+        "fecha": "2026-10-04 19:13:21"
+    },
+    {
+        "usuario": "Sol",
+        "producto": "002",
+        "fecha": "2026-10-04 20:11:37"
+    }
+]

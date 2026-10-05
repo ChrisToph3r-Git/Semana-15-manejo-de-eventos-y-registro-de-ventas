@@ -1,14 +1,16 @@
 [
     {
         "usuario": "admin",
+        "identificacion": "001",
         "contrasena": "1234",
         "nombre": "Administrador",
-        "correo": "admin@restaurante.com"
+        "rol": "Administrador"
     },
     {
-        "usuario": "cliente",
-        "contrasena": "1234",
-        "nombre": "Cliente Demo",
-        "correo": "cliente@restaurante.com"
+        "usuario": "Sol",
+        "identificacion": "003",
+        "contrasena": "123455",
+        "nombre": "Soledad Constante",
+        "rol": "Empleado"
     }
 ]
